@@ -1,8 +1,6 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md q-pb-md">
-      <q-badge color="primary"> Timezone: "{{ timezone }}" </q-badge>
-
       <q-select
         filled
         v-model="timezone"
@@ -19,50 +17,107 @@
         </template>
       </q-select>
     </div>
-    <q-card class="my-card" v-if="datetime">
-      <q-card-section horizontal>
-        <q-card-section>
-          <div class="text-h5 q-mt-sm q-mb-xs">
-            {{
-              moment(datetime.datetime)
-                .utcOffset(datetime.utc_offset)
-                .format("MMMM Do YYYY, h:mm:ss a")
-            }}
-          </div>
-          <q-item-label>Timezone: {{ datetime?.timezone }} </q-item-label>
-          <q-item-label
-            >UTC Date Time:
-            {{
-              moment(datetime.utc_datetime)
-                .utcOffset(0)
-                .format("MMMM Do YYYY, h:mm:ss a")
-            }}
-          </q-item-label>
-          <q-item-label>UTC Offset: {{ datetime?.utc_offset }} </q-item-label>
-          <q-item-label>Week Number: {{ datetime?.week_number }} </q-item-label>
-          <q-item-label>Day of week: {{ datetime?.day_of_week }} </q-item-label>
-          <q-item-label>Day of year: {{ datetime?.day_of_year }} </q-item-label>
-          <!-- {{ datetime }} -->
-        </q-card-section>
+
+    <q-card class="my-card" flat bordered v-if="datetime">
+      <q-card-section class="text-center">
+        <div class="text-h6 text-orange-9">{{ datetime?.timezone }}</div>
+        <div class="text-h4 q-mt-sm q-mb-xs">
+          {{
+            moment(datetime.datetime)
+              .utcOffset(datetime.utc_offset)
+              .format("MMMM Do YYYY, h:mm:ss A")
+          }}
+        </div>
+        <div class="text-caption text-grey">
+          Your selected timezone date and time
+        </div>
+      </q-card-section>
+    </q-card>
+
+    <q-card v-if="datetime" class="q-mt-md" flat bordered>
+      <!-- <img src="https://cdn.quasar.dev/img/parallax2.jpg" /> -->
+
+      <q-card-section>
+        <div class="text-h6">
+          {{
+            moment(datetime.datetime)
+              .utcOffset(datetime.utc_offset)
+              .format("MMMM Do YYYY")
+          }}
+        </div>
+        <div class="text-subtitle1">
+          {{
+            moment(datetime.datetime)
+              .utcOffset(datetime.utc_offset)
+              .format("dddd hh:mm A")
+          }}
+        </div>
+        <q-item-label caption> tz: {{ datetime?.timezone }} </q-item-label>
       </q-card-section>
 
-      <q-separator />
+      <q-list>
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon color="primary" name="public" />
+          </q-item-section>
 
-      <q-card-actions>
-        <q-btn flat round icon="event" />
-        <q-btn flat>
-          {{
-            moment(datetime?.datetime)
-              .utcOffset(datetime.utc_offset)
-              .format("h:mm A")
-          }}
-        </q-btn>
-        <q-btn flat>
-          {{ moment(datetime?.utc_datetime).utcOffset(0).format("h:mm A") }}
-          UTC
-        </q-btn>
-        <q-btn flat color="primary"> Reserve </q-btn>
-      </q-card-actions>
+          <q-item-section>
+            <q-item-label
+              >{{
+                moment(datetime.utc_datetime)
+                  .utcOffset(0)
+                  .format("MMMM Do YYYY, h:mm:ss A")
+              }}
+              UTC</q-item-label
+            >
+            <q-item-label caption>UTC date time </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon color="green" name="more_time" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ datetime?.utc_offset }}</q-item-label>
+            <q-item-label caption>UTC Offset</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon color="red" name="insert_invitation" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ datetime?.week_number }}</q-item-label>
+            <q-item-label caption>Week Number</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon color="amber" name="today" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ datetime?.day_of_week }}</q-item-label>
+            <q-item-label caption>Day of week</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon color="black" name="calendar_month" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ datetime?.day_of_year }}</q-item-label>
+            <q-item-label caption>Day of year</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-card>
   </div>
 </template>
@@ -74,6 +129,7 @@ import { useQuasar } from "quasar";
 import moment from "moment";
 
 const $q = useQuasar();
+const tzdefault = ref("Asia/Dhaka");
 const timezone = ref();
 let stringOptions = [
   "Africa/Abidjan",
@@ -435,14 +491,31 @@ const isTimezoneSelected = computed(() => {
   return timezone.value !== "";
 });
 
-const fetchTimezones = async () => {
+watch(timezone, () => {
+  try {
+    if (timezone.value !== null) {
+      $q.notify({
+        color: "green",
+        textColor: "white",
+        icon: "cloud_done",
+        message: "Please wait... we have recived your request",
+        timeout: 500,
+      });
+
+      fetchTimeZoneDateTime();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+const fetchTimeZoneDateTime = async () => {
   try {
     api
-      .get("/api/timezone")
+      .get(`/api/timezone/` + timezone.value)
       .then((response) => {
-        stringOptions.value = response.data;
-        options.value = concat;
-        console.log(stringOptions.value);
+        // console.log(response);
+        datetime.value = response.data;
       })
       .catch(() => {
         $q.notify({
@@ -457,31 +530,7 @@ const fetchTimezones = async () => {
   }
 };
 
-watch(timezone, () => {
-  try {
-    if (timezone.value !== null) {
-      api
-        .get("/api/timezone/" + timezone.value)
-        .then((response) => {
-          console.log(response);
-          datetime.value = response.data;
-        })
-        .catch(() => {
-          $q.notify({
-            color: "negative",
-            position: "top",
-            message: "Loading failed",
-            icon: "report_problem",
-          });
-        });
-    }
-  } catch (error) {
-    console.error(error);
-  }
-});
-
 function filterFn(val, update) {
-  console.log(stringOptions);
   if (val === "") {
     update(() => {
       options.value = stringOptions;
@@ -499,6 +548,9 @@ function filterFn(val, update) {
     );
   });
 }
-
-onMounted(fetchTimezones);
 </script>
+
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+</style>

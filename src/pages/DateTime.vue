@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h1>Hello welcome to the time</h1>
-    <p>{{ formattedString }}</p>
+  <div class="q-pa-md">
+    <h4>Hello welcome to the time</h4>
+    <h3>{{ formattedString }}</h3>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-form @submit="onSubmit" class="q-gutter-md">
+    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <q-input
         v-model="cityname"
         color="primary"
@@ -23,6 +23,13 @@
 
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn
+          label="Reset"
+          type="reset"
+          color="primary"
+          flat
+          class="q-ml-sm"
+        />
       </div>
     </q-form>
 
@@ -151,6 +158,7 @@ const fetchCityWeather = async () => {
           position: "top",
           message: "Loading failed",
           icon: "report_problem",
+          timeout: 500,
         });
       });
   } catch (error) {
@@ -164,8 +172,15 @@ function onSubmit() {
     textColor: "white",
     icon: "cloud_done",
     message: "Please wait... .we have recived your request",
+    timeout: 500,
   });
   fetchCityWeather();
+}
+
+function onReset() {
+  cityname.value = null;
+  countryname.value = null;
+  weather.value = null;
 }
 </script>
 

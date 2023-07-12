@@ -3,7 +3,7 @@
     <q-layout view="lHh Lpr lff" class="shadow-2 rounded-borders">
       <q-header elevated class="bg-cyan-8">
         <q-toolbar>
-          <q-toolbar-title>world-time</q-toolbar-title>
+          <q-toolbar-title>World Time</q-toolbar-title>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         </q-toolbar>
       </q-header>
@@ -79,8 +79,8 @@
             <q-avatar size="56px" class="q-mb-sm">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
-            <div class="text-weight-bold">Razvan Stoenescu</div>
-            <div>@rstoenescu</div>
+            <div class="text-weight-bold">Md Atiqur Rahman</div>
+            <div>@atiqur23</div>
           </div>
         </q-img>
       </q-drawer>
