@@ -52,6 +52,17 @@
               <q-item-section>weather</q-item-section>
             </q-item>
 
+            <q-item
+              to="/exchange-rate"
+              active-class="q-item-no-link-highlighting"
+            >
+              <q-item-section avatar>
+                <q-icon name="currency_exchange" />
+              </q-item-section>
+
+              <q-item-section>Exchnage Rate</q-item-section>
+            </q-item>
+
             <q-item active-class="q-item-no-link-highlighting">
               <q-item-section avatar>
                 <q-icon name="send" />

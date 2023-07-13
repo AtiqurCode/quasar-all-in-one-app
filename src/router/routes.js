@@ -17,6 +17,10 @@ const routes = [
         path: "weather",
         component: () => import("src/pages/CityWeather.vue"),
       },
+      {
+        path: "exchange-rate",
+        component: () => import("src/pages/ExchangeRate.vue"),
+      },
     ],
   },
 
