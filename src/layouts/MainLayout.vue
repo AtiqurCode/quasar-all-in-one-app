@@ -63,6 +63,17 @@
               <q-item-section>Exchnage Rate</q-item-section>
             </q-item>
 
+            <q-item
+              to="/language-detect"
+              active-class="q-item-no-link-highlighting"
+            >
+              <q-item-section avatar>
+                <q-icon name="language" />
+              </q-item-section>
+
+              <q-item-section>Language Detect</q-item-section>
+            </q-item>
+
             <q-item active-class="q-item-no-link-highlighting">
               <q-item-section avatar>
                 <q-icon name="send" />

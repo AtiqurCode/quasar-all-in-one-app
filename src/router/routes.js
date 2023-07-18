@@ -21,6 +21,10 @@ const routes = [
         path: "exchange-rate",
         component: () => import("src/pages/ExchangeRate.vue"),
       },
+      {
+        path: "language-detect",
+        component: () => import("src/pages/LanguageDetect.vue"),
+      },
     ],
   },
 
