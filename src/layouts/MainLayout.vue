@@ -16,8 +16,13 @@
             border-right: 1px solid #ddd;
           "
         >
-          <q-list padding>
-            <q-item to="/world-time" active-class="q-item-no-link-highlighting">
+          <q-list>
+            <q-item
+              to="/world-time"
+              :active="link === 'world-time'"
+              @click="link = 'world-time'"
+              active-class="my-menu-link"
+            >
               <q-item-section avatar>
                 <q-icon name="timer" />
               </q-item-section>
@@ -25,7 +30,12 @@
               <q-item-section> World Time </q-item-section>
             </q-item>
 
-            <q-item to="/datetime" active-class="q-item-no-link-highlighting">
+            <q-item
+              to="/datetime"
+              :active="link === 'datetime'"
+              @click="link = 'datetime'"
+              active-class="my-menu-link"
+            >
               <q-item-section avatar>
                 <q-icon name="calendar_month" />
               </q-item-section>
@@ -35,7 +45,9 @@
 
             <q-item
               to="/prayer-time"
-              active-class="q-item-no-link-highlighting"
+              :active="link === 'prayer-time'"
+              @click="link = 'prayer-time'"
+              active-class="my-menu-link"
             >
               <q-item-section avatar>
                 <q-icon name="brightness_4" />
@@ -44,7 +56,12 @@
               <q-item-section> PrayerTime </q-item-section>
             </q-item>
 
-            <q-item to="/weather" active-class="q-item-no-link-highlighting">
+            <q-item
+              to="/weather"
+              :active="link === 'weather'"
+              @click="link = 'weather'"
+              active-class="my-menu-link"
+            >
               <q-item-section avatar>
                 <q-icon name="thunderstorm" />
               </q-item-section>
@@ -54,7 +71,9 @@
 
             <q-item
               to="/exchange-rate"
-              active-class="q-item-no-link-highlighting"
+              :active="link === 'exchange-rate'"
+              @click="link = 'exchange-rate'"
+              active-class="my-menu-link"
             >
               <q-item-section avatar>
                 <q-icon name="currency_exchange" />
@@ -65,7 +84,9 @@
 
             <q-item
               to="/language-detect"
-              active-class="q-item-no-link-highlighting"
+              :active="link === 'language-detect'"
+              @click="link = 'language-detect'"
+              active-class="my-menu-link"
             >
               <q-item-section avatar>
                 <q-icon name="language" />
@@ -74,20 +95,30 @@
               <q-item-section>Language Detect</q-item-section>
             </q-item>
 
-            <q-item active-class="q-item-no-link-highlighting">
+            <q-item
+              :active="link === 'country-economies'"
+              @click="link = 'country-economies'"
+              active-class="my-menu-link"
+              to="/country-economies"
+            >
               <q-item-section avatar>
-                <q-icon name="send" />
+                <q-icon name="flag_circle" />
               </q-item-section>
 
-              <q-item-section> Send </q-item-section>
+              <q-item-section>Countries & Economies</q-item-section>
             </q-item>
 
-            <q-item active-class="q-item-no-link-highlighting">
+            <q-item
+              :active="link === 'settings'"
+              @click="link = 'settings'"
+              active-class="my-menu-link"
+              to="/settings"
+            >
               <q-item-section avatar>
-                <q-icon name="drafts" />
+                <q-icon name="settings" />
               </q-item-section>
 
-              <q-item-section> Drafts </q-item-section>
+              <q-item-section>Settings</q-item-section>
             </q-item>
           </q-list>
         </q-scroll-area>
@@ -121,7 +152,14 @@ export default {
   setup() {
     return {
       drawer: ref(false),
+      link: ref("world-time"),
     };
   },
 };
 </script>
+
+<style lang="sass">
+.my-menu-link
+  color: white
+  background: #0097A7
+</style>
