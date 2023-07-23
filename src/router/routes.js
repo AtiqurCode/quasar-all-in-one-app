@@ -26,6 +26,10 @@ const routes = [
         component: () => import("src/pages/LanguageDetect.vue"),
       },
       {
+        path: "country-state",
+        component: () => import("src/pages/CountryState.vue"),
+      },
+      {
         path: "country-economies",
         component: () => import("src/pages/CountriesEconomies.vue"),
       },

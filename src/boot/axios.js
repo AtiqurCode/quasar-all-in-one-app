@@ -9,9 +9,15 @@ import axios from "axios";
 // for each client)
 const api = axios.create({ baseURL: "http://worldtimeapi.org" });
 const aladhanApi = axios.create({ baseURL: " http://api.aladhan.com/v1" });
+
 const apiNinjas = axios.create({
-  baseURL: " https://api.api-ninjas.com/v1",
+  baseURL: "https://api.api-ninjas.com/v1",
   headers: { "X-Api-Key": "Q/51lh3Og5gYuJJNKxWtCg==5kcKKiHwuQL4Vwv1" },
+});
+
+const countriesnow = axios.create({
+  baseURL: "https://countriesnow.space/api/v0.1",
+  headers: { Accept: "application/json" },
 });
 
 export default boot(({ app }) => {
@@ -24,8 +30,11 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = api;
   app.config.globalProperties.$aladhanApi = aladhanApi;
   app.config.globalProperties.$apiNinjas = apiNinjas;
+
+  app.config.globalProperties.$countriesnow = countriesnow;
+
   // ^ ^ ^ this will allow you to use this.$aladhanApi (for Vue Options API form)
   //       so you can easily perform requests against your app's API
 });
 
-export { api, aladhanApi, apiNinjas };
+export { api, aladhanApi, apiNinjas, countriesnow };

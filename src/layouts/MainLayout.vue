@@ -96,6 +96,19 @@
             </q-item>
 
             <q-item
+              :active="link === 'country-state'"
+              @click="link = 'country-state'"
+              active-class="my-menu-link"
+              to="/country-state"
+            >
+              <q-item-section avatar>
+                <q-icon name="share_location" />
+              </q-item-section>
+
+              <q-item-section>Country City</q-item-section>
+            </q-item>
+
+            <q-item
               :active="link === 'country-economies'"
               @click="link = 'country-economies'"
               active-class="my-menu-link"
