@@ -10,6 +10,7 @@ import axios from "axios";
 const api = axios.create({
   baseURL: "http://worldtimeapi.org",
   headers: {
+    Accept: "application/json",
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -19,6 +20,7 @@ const api = axios.create({
 const aladhanApi = axios.create({
   baseURL: " http://api.aladhan.com/v1",
   headers: {
+    Accept: "application/json",
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -29,6 +31,7 @@ const aladhanApi = axios.create({
 const apiNinjas = axios.create({
   baseURL: "https://api.api-ninjas.com/v1",
   headers: {
+    Accept: "application/json",
     "X-Api-Key": "Q/51lh3Og5gYuJJNKxWtCg==5kcKKiHwuQL4Vwv1",
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
