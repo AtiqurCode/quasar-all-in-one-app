@@ -7,17 +7,45 @@ import axios from "axios";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: "http://worldtimeapi.org" });
-const aladhanApi = axios.create({ baseURL: " http://api.aladhan.com/v1" });
+const api = axios.create({
+  baseURL: "http://worldtimeapi.org",
+  headers: {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
+  },
+});
+const aladhanApi = axios.create({
+  baseURL: " http://api.aladhan.com/v1",
+  headers: {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
+  },
+});
 
 const apiNinjas = axios.create({
   baseURL: "https://api.api-ninjas.com/v1",
-  headers: { "X-Api-Key": "Q/51lh3Og5gYuJJNKxWtCg==5kcKKiHwuQL4Vwv1" },
+  headers: {
+    "X-Api-Key": "Q/51lh3Og5gYuJJNKxWtCg==5kcKKiHwuQL4Vwv1",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
+  },
 });
 
 const countriesnow = axios.create({
   baseURL: "https://countriesnow.space/api/v0.1",
-  headers: { Accept: "application/json" },
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
+  },
 });
 
 export default boot(({ app }) => {
