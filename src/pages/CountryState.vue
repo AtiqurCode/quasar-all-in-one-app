@@ -7,7 +7,7 @@
         </q-card-section>
       </q-card>
 
-      <q-form v-if="countries" @submit="onSubmit" @reset="onReset">
+      <q-form v-if="countries">
         <q-select
           filled
           v-model="countryName"
@@ -16,8 +16,8 @@
           option-value="id"
           option-label="name"
           input-debounce="0"
-          label="Type any text in your language"
-          hint="supporting over 50 different languages"
+          label="Select an country for the states"
+          hint="Supporting over 150+ different countries"
         >
           <template v-slot:option="scope">
             <q-item v-bind="scope.itemProps">
@@ -33,20 +33,9 @@
             </q-item>
           </template>
         </q-select>
-
-        <div>
-          <q-btn label="Submit" type="submit" color="primary" />
-          <q-btn
-            label="Reset"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm q-pa-md"
-          />
-        </div>
       </q-form>
 
-      <q-form v-if="states" @submit="onStateSubmit" @reset="onStateReset">
+      <q-form v-if="states">
         <q-select
           filled
           v-model="stateName"
@@ -55,8 +44,8 @@
           option-value="id"
           option-label="name"
           input-debounce="0"
-          label="Type any text in your language"
-          hint="supporting over 50 different languages"
+          label="Select an states for the cities"
+          hint="There can be more than one city"
         >
           <template v-slot:option="state">
             <q-item v-bind="state.itemProps">
@@ -67,39 +56,42 @@
             </q-item>
           </template>
         </q-select>
-
-        <div>
-          <q-btn label="Submit" type="submit" color="primary" />
-          <q-btn
-            label="Reset"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm q-pa-md"
-          />
-        </div>
       </q-form>
 
-      <q-form v-if="cities">
-        <q-select
-          filled
-          v-model="cityName"
-          use-input
-          :options="cities.data"
-          input-debounce="0"
-          label="Type any text in your language"
+      <div v-if="cities">
+        <q-card
+          v-if="isEmpty(cities.data)"
+          class="q-mt-md bg-red-3"
+          flat
+          bordered
         >
-        </q-select>
-      </q-form>
+          <q-card-section class="text-center">
+            <q-item-label>
+              There is no cities for {{ stateName.name }}
+            </q-item-label>
+          </q-card-section>
+        </q-card>
+
+        <q-form v-else>
+          <q-select
+            filled
+            v-model="cityName"
+            use-input
+            :options="cities.data"
+            input-debounce="0"
+            label="Click the see all cities"
+          >
+          </q-select>
+        </q-form>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import { countriesnow } from "boot/axios";
-import axios from "axios";
 
 const $q = useQuasar();
 
@@ -116,7 +108,7 @@ const fetchCountry = async () => {
       .get(`/countries/flag/unicode`)
       .then((response) => {
         countries.value = response.data.data;
-        console.log(countries.value);
+        // console.log(countries.value);
       })
       .catch((e) => {
         console.log(e);
@@ -143,7 +135,7 @@ const fetchCountryStates = async (countryName) => {
       .post(`/countries/states`, selectCountryName)
       .then((response) => {
         states.value = response.data;
-        console.log(states.value);
+        // console.log(states.value);
       })
       .catch((e) => {
         console.log(e);
@@ -171,7 +163,7 @@ const fetchCountryStatesCity = async (countryName, stateName) => {
       .post(`/countries/state/cities`, selectCountryStateName)
       .then((response) => {
         cities.value = response.data;
-        console.log(cities.value);
+        // console.log(cities.value);
       })
       .catch((e) => {
         console.log(e);
@@ -188,42 +180,49 @@ const fetchCountryStatesCity = async (countryName, stateName) => {
   }
 };
 
+watch(countryName, () => {
+  try {
+    if (countryName.value !== null) {
+      $q.notify({
+        color: "green",
+        textColor: "white",
+        icon: "cloud_done",
+        message: "Please wait... we have recived your request",
+        timeout: 500,
+      });
+
+      fetchCountryStates(countryName.value.name);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+watch(stateName, () => {
+  try {
+    if (countryName.value !== null && stateName.value !== null) {
+      $q.notify({
+        color: "green",
+        textColor: "white",
+        icon: "cloud_done",
+        message: "Please wait... we have recived your request",
+        timeout: 500,
+      });
+
+      fetchCountryStatesCity(countryName.value.name, stateName.value.name);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+function isEmpty(data) {
+  // You can define your own logic to check for emptiness
+  // console.log(data.length === 0);
+  return data.length === 0;
+}
+
 onMounted(() => {
   fetchCountry();
 });
-
-function onSubmit() {
-  $q.notify({
-    color: "green",
-    textColor: "white",
-    icon: "cloud_done",
-    message: "Please wait... we have recived your country & economies request",
-    timeout: 500,
-  });
-
-  fetchCountryStates(countryName.value.name);
-}
-
-function onStateSubmit() {
-  $q.notify({
-    color: "green",
-    textColor: "white",
-    icon: "cloud_done",
-    message: "Please wait... we have recived your country & economies request",
-    timeout: 500,
-  });
-
-  fetchCountryStatesCity(countryName.value.name, stateName.value.name);
-}
-
-function onReset() {
-  countryName.value = null;
-  countryInfo.value = null;
-  countries.value = null;
-}
-
-function onStateReset() {
-  stateName.value = null;
-  countryInfo.states = null;
-}
 </script>
