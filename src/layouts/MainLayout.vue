@@ -18,7 +18,7 @@
         >
           <q-list>
             <q-item
-              to="/world-time"
+              to="/"
               :active="link === 'world-time'"
               @click="link = 'world-time'"
               active-class="my-menu-link"

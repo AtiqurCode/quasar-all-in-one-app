@@ -3,8 +3,7 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/IndexPage.vue") },
-      { path: "world-time", component: () => import("pages/WorldTime.vue") },
+      { path: "", component: () => import("pages/WorldTime.vue") },
       {
         path: "datetime",
         component: () => import("pages/DateTime.vue"),
