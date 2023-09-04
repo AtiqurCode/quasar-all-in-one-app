@@ -21,11 +21,14 @@
     <q-card class="my-card" flat bordered v-if="datetime">
       <q-card-section class="text-center">
         <div class="text-h6 text-orange-9">{{ datetime?.timezone }}</div>
+        <div class="text-h2 text-bold q-mt-sm q-mb-xs">
+          {{
+            moment(datetime.datetime).format('HH:mm A	')
+          }}
+        </div>
         <div class="text-h4 q-mt-sm q-mb-xs">
           {{
-            moment(datetime.datetime)
-              .utcOffset(datetime.utc_offset)
-              .format("MMMM Do YYYY, h:mm:ss A")
+            moment(datetime.datetime).format('dddd, MMMM Do YYYY	')
           }}
         </div>
         <div class="text-caption text-grey">
@@ -40,81 +43,26 @@
       <q-card-section>
         <div class="text-h6">
           {{
-            moment(datetime.datetime)
-              .utcOffset(datetime.utc_offset)
-              .format("MMMM Do YYYY")
+            datetime.date
           }}
         </div>
         <div class="text-subtitle1">
-          {{
-            moment(datetime.datetime)
-              .utcOffset(datetime.utc_offset)
-              .format("dddd hh:mm A")
+          Week Day: {{
+            datetime.day
           }}
         </div>
-        <q-item-label caption> tz: {{ datetime?.timezone }} </q-item-label>
+        <q-item-label caption> tz: {{ datetime.timezone }} </q-item-label>
       </q-card-section>
 
       <q-list>
-        <q-item clickable>
-          <q-item-section avatar>
-            <q-icon color="primary" name="public" />
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label
-              >{{
-                moment(datetime.utc_datetime)
-                  .utcOffset(0)
-                  .format("MMMM Do YYYY, h:mm:ss A")
-              }}
-              UTC</q-item-label
-            >
-            <q-item-label caption>UTC date time </q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable>
-          <q-item-section avatar>
-            <q-icon color="green" name="more_time" />
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label>{{ datetime?.utc_offset }}</q-item-label>
-            <q-item-label caption>UTC Offset</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable>
-          <q-item-section avatar>
-            <q-icon color="red" name="insert_invitation" />
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label>{{ datetime?.week_number }}</q-item-label>
-            <q-item-label caption>Week Number</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable>
-          <q-item-section avatar>
-            <q-icon color="amber" name="today" />
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label>{{ datetime?.day_of_week }}</q-item-label>
-            <q-item-label caption>Day of week</q-item-label>
-          </q-item-section>
-        </q-item>
-
         <q-item clickable>
           <q-item-section avatar>
             <q-icon color="black" name="calendar_month" />
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>{{ datetime?.day_of_year }}</q-item-label>
-            <q-item-label caption>Day of year</q-item-label>
+            <q-item-label>{{ datetime?.year }}</q-item-label>
+            <q-item-label caption>Year</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -124,10 +72,9 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-import { api } from "boot/axios";
+import { apiNinjas } from "boot/axios";
 import { useQuasar } from "quasar";
 import moment from "moment";
-
 const $q = useQuasar();
 const tzdefault = ref("Asia/Dhaka");
 const timezone = ref();
@@ -511,8 +458,8 @@ watch(timezone, () => {
 
 const fetchTimeZoneDateTime = async () => {
   try {
-    api
-      .get(`/api/timezone/` + timezone.value)
+    apiNinjas
+      .get(`/worldtime?timezone=` + timezone.value)
       .then((response) => {
         // console.log(response);
         datetime.value = response.data;

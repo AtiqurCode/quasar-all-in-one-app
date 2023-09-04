@@ -20,8 +20,8 @@ const api = axios.create({
 const aladhanApi = axios.create({
   baseURL: " http://api.aladhan.com/v1",
   headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    // Accept: "application/json",
+    // "Content-Type": "application/json",
     // "Access-Control-Allow-Origin": "*",
     // "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     // "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
