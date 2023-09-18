@@ -96,6 +96,8 @@ module.exports = configure(function (/* ctx */) {
     devServer: {
       // https: true
       open: true, // opens browser window automatically
+      proxy: 'http://api.aladhan.com/v1',
+
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
