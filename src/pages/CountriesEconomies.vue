@@ -12,7 +12,8 @@
           filled
           v-model="countryName"
           use-input
-          :options="countryList"
+          :options="options"
+          @filter="filterFn"
           input-debounce="0"
           label="Type any text in your language"
           hint="supporting over 50 different languages"
@@ -700,6 +701,7 @@ const countryName = ref("");
 const countryInfo = ref(null);
 const tab = ref("info");
 const splitterModel = ref(20);
+const options = ref(countryList);
 
 const fetchCountryInformation = async () => {
   try {
@@ -738,5 +740,24 @@ function onSubmit() {
 function onReset() {
   countryName.value = null;
   countryInfo.value = null;
+}
+
+function filterFn(val, update) {
+  if (val === "") {
+    update(() => {
+      options.value = countryList;
+
+      // here you have access to "ref" which
+      // is the Vue reference of the QSelect
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    options.value = countryList.filter(
+      (v) => v.toLowerCase().indexOf(needle) > -1
+    );
+  });
 }
 </script>
